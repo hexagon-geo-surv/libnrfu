@@ -555,6 +555,7 @@ out:
 int nrfu_update(const char *devname, const char *init_packet, const char *firmware, enum nrfu_log_level log_level)
 {
 	struct nrfu_data_t priv;
+	int ret = -1;
 
 	if (!devname || !init_packet || !firmware)
 		return -1;
@@ -584,10 +585,10 @@ int nrfu_update(const char *devname, const char *init_packet, const char *firmwa
 	if (send_firmware(&priv, firmware) < 0)
 		goto err_out;
 
-	return 0;
+	ret = 0;
 err_out:
 	if (priv.serial_fd >= 0)
 		close(priv.serial_fd);
 
-	return -1;
+	return ret;
 }
